@@ -34,12 +34,9 @@ class PanApiSession(OAuth2Session):
         Has the access token expired?
     """
     if os.path.exists('~/.panapi/'):
-        # _configfile = '~/.panapi/config.yml'
-        _configfile = '../../config.yml'
+        _configfile = '~/.panapi/config.yml'
     else:
-        _configfile = '/code/.panapi/config.yml'
-
-    _configfile = '../../config.yml'
+        _configfile = './config.yml'
 
     def authenticate(self, **kwargs):
         # Process the configfile or kwargs
