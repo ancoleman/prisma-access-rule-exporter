@@ -4,7 +4,8 @@
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE) [![support](https://img.shields.io/badge/Support%20Level-Community-yellowgreen)](./SUPPORT.md)
 
 ## Description
-Simple Export Script to output Security rules to JSON file.
+Simple Export Script to output Security rules to JSON file output.
+Additionally, the script will export all folder rulebases into CSV.
 
 ### Requirements
 * Python 3.9+
