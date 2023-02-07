@@ -1,29 +1,40 @@
-# pcs-opensource
-Template for all Prisma Cloud open source projects
+# prisma-access-rule-exporter
+
 
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE) [![support](https://img.shields.io/badge/Support%20Level-Community-yellowgreen)](./SUPPORT.md)
 
 ## Description
-An outline about your project and overview of use.
+Simple Export Script to output Security rules to JSON file.
 
-### Example Formatting
-* How bullet things
-* Step-by-step bullets
+### Requirements
+* Python 3.9+
+* OAUTH Service Account Credentials file
+#### Example Credentials config.yaml
+```yaml
+---
+scope: profile tsg_id:YOURTENANTID email
+client_id: SA@YOURID.iam.panserviceaccount.com
+client_secret: YOURSECRET
+grant_type: client_credentials
+token_url: https://auth.apps.paloaltonetworks.com/am/oauth2/access_token
 ```
-code blocks for commands
+
+### Example Usage
+Currently, no CLI has been added to this project, so all parameters need to be added to the script.
+#### Paramters
+* folders = ['Shared', 'Remote Networks', 'Mobile Users', 'Mobile Users Explicit Proxy']
+* position = ['pre','post']
+* output_file = 'rules_config.json'
+
 ```
-Can also do `inline code` for more specifics
-
-### More examples
-1. Numbered list
-1. Like so
-1. More info
-
+git clone https://github.com/ancoleman/prisma-access-rule-exporter
+cd prisma-access-rule-exporter
+python3 rule-exporter.py
+```
 
 ## Version History
 
-* 0.2
-    * Various changes
+
 * 0.1
     * Initial Release
 
