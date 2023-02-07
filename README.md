@@ -31,8 +31,25 @@ Currently, no CLI has been added to this project, so all parameters need to be a
 ```
 git clone https://github.com/ancoleman/prisma-access-rule-exporter
 cd prisma-access-rule-exporter
-python3 rule-exporter.py
+
+import rule_exporter
+folders = ['Shared', 'Remote Networks', 'Mobile Users', 'Mobile Users Explicit Proxy']
+security_rules = rule_exporter.get_rules(folders)
+rule_exporter.cleanup_duplicates_rules(folders, security_rules)
+rule_exporter.generate_json_file('security_rules.json', security_rules)
+rule_exporter.generate_csv_rules(folders, security_rules, type='security')
 ```
+
+```python
+#Example from example.py
+import rule_exporter
+folders = ['Shared', 'Remote Networks', 'Mobile Users', 'Mobile Users Explicit Proxy']
+security_rules = rule_exporter.get_rules(folders)
+rule_exporter.cleanup_duplicates_rules(folders, security_rules)
+rule_exporter.generate_json_file('security_rules.json', security_rules)
+rule_exporter.generate_csv_rules(folders, security_rules, type='security')
+```
+
 
 ## Version History
 
