@@ -4,12 +4,18 @@
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE) [![support](https://img.shields.io/badge/Support%20Level-Community-yellowgreen)](./SUPPORT.md)
 
 ## Description
-Simple Export Script to output Security rules to JSON file output.
+Simple Export Script to output rules to JSON file output.
 Additionally, the script will export all folder rulebases into CSV.
 
 ### Requirements
 * Python 3.9+
 * OAUTH Service Account Credentials file
+
+### Supported Rule Types
+* Security
+* Authentication
+* Decryption
+
 #### Example Credentials config.yaml
 Create the config.yaml file in the root directory.
 ```yaml
