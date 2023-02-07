@@ -4,25 +4,27 @@ import time
 import json
 import csv
 
-# This session requires the panapi SDK, as well as the modified
-# version to perform the listing properly for security rules
-session = panapi.PanApiSession()
-session.authenticate()
-# Add sleep for bug in dependency library with OAUTH
-time.sleep(1)
 
-# You can modify this list if you only want a specific folder
-folders = ['Shared', 'Remote Networks', 'Mobile Users', 'Mobile Users Explicit Proxy']
+def create_session():
+    """
 
-# You can change the name of the output file here
-output_file = 'rules_config.json'
-csv_suffix = 'rules'
+    Returns: Session Object
+
+    """
+    try:
+        session = panapi.PanApiSession()
+        session.authenticate()
+        time.sleep(1)
+        return session
+    except Exception as e:
+        return f'Failed with exception: {e}'
 
 
-def get_rules(folders, rule_type='security'):
+def get_rules(session, folders, rule_type='security'):
     """
 
     Args:
+        session: Session object from create_session() function
         folders: List of Prisma Access folders to cycle through
         rule_type: security, decrypt, auth
 
@@ -112,13 +114,24 @@ def generate_json_file(filename, rules):
         json.dump(rules, f, indent=4)
 
 
-def generate_csv_rules(folders, rules_dict, type):
+def generate_csv_rules(folders, rules_dict, type, suffix):
+    """
+
+    Args:
+        suffix: Append string suffix to csv file
+        folders: List of Prisma Access folders to cycle through
+        rules_dict: Dictionary of rules generated from the get_rules() function
+        type: Str value for the rule type to modify csv filename
+
+    Returns:
+
+    """
     for folder in folders:
         for position in ['pre', 'post']:
             if position in rules_dict[folder]:
                 if len(rules_dict[folder][position]) > 0:
                     folder_data = rules_dict[folder][position]
-                    new_csv = open(f'{folder.lower()}_{type.lower()}_{position}_{csv_suffix}.csv', 'w')
+                    new_csv = open(f'{folder.lower()}_{type.lower()}_{position}_{suffix}.csv', 'w')
                     csv_writer = csv.writer(new_csv)
                     count = 0
 
@@ -132,5 +145,3 @@ def generate_csv_rules(folders, rules_dict, type):
                         # Writing data of CSV file
                         csv_writer.writerow(item.values())
                     new_csv.close()
-
-
