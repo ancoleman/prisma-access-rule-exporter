@@ -76,7 +76,7 @@ def get_rules(session, folders, rule_type='security'):
 ############################################################
 # Checks for matching rule IDs between positional rulebases
 ############################################################
-def cleanup_duplicates_rules(folders, rules):
+def cleanup_duplicate_rules(folders, rules):
     """
         Args:
             folders: List of Prisma Access folders to cycle through
