@@ -29,10 +29,9 @@ token_url: https://auth.apps.paloaltonetworks.com/am/oauth2/access_token
 
 ### Example Usage
 Currently, no CLI has been added to this project, so all parameters need to be added to the script.
+
 #### Paramters
 * folders = ['Shared', 'Remote Networks', 'Mobile Users', 'Mobile Users Explicit Proxy']
-* position = ['pre','post']
-* output_file = 'rules_config.json'
 
 ```
 git clone https://github.com/ancoleman/prisma-access-rule-exporter
