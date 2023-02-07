@@ -47,7 +47,7 @@ folders = ['Shared', 'Remote Networks', 'Mobile Users', 'Mobile Users Explicit P
 
 session = rule_exporter.create_session()
 security_rules = rule_exporter.get_rules(session, folders)
-rule_exporter.cleanup_duplicates_rules(folders, security_rules)
+rule_exporter.cleanup_duplicate_rules(folders, security_rules)
 rule_exporter.generate_json_file('security_rules.json', security_rules)
 rule_exporter.generate_csv_rules(folders, security_rules, type='security', suffix='rules')
 ```
