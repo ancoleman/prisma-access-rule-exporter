@@ -10,6 +10,7 @@ Simple Export Script to output Security rules to JSON file.
 * Python 3.9+
 * OAUTH Service Account Credentials file
 #### Example Credentials config.yaml
+Create the config.yaml file in the root directory.
 ```yaml
 ---
 scope: profile tsg_id:YOURTENANTID email
