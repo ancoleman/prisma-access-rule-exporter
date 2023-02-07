@@ -81,7 +81,7 @@ for folder in folders:
         if position in rules_config[folder]:
             if len(rules_config[folder][position]) > 0:
                 folder_data = rules_config[folder][position]
-                new_csv = open(f'{folder}_{position}_{csv_suffix}.csv', 'w')
+                new_csv = open(f'{folder.lower()}_{position}_{csv_suffix}.csv', 'w')
                 csv_writer = csv.writer(new_csv)
                 count = 0
 

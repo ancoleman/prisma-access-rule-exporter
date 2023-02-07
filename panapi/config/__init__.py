@@ -176,8 +176,6 @@ class PanObject:
                 url=url,
                 params=params
             )
-            print(url)
-            print(session.response.json())
         except Exception as err:
             print(err)
             return err
