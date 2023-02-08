@@ -36,6 +36,7 @@ Currently, no CLI has been added to this project, so all parameters need to be a
 ```
 git clone https://github.com/ancoleman/prisma-access-rule-exporter
 cd prisma-access-rule-exporter
+pip install -r requirements.txt
 ```
 
 ```python
