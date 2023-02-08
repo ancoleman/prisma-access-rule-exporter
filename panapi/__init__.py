@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
 
-# import json
 import yaml
-import os
-import sys
 import jwt
+import pathlib
 from jwt import PyJWKClient
 from jwt.exceptions import ExpiredSignatureError
 from oauthlib.oauth2 import BackendApplicationClient
@@ -33,10 +31,22 @@ class PanApiSession(OAuth2Session):
     is_expired
         Has the access token expired?
     """
-    if os.path.exists('~/.panapi/'):
-        _configfile = '~/.panapi/config.yml'
+    if pathlib.Path('~/.panapi/').exists():
+        path = pathlib.Path('~/.panapi/config.yml')
+        _configfile = path.resolve()
     else:
-        _configfile = './config.yml'
+        path = None
+        try:
+            if pathlib.Path('config.yaml').exists():
+                path = pathlib.Path('config.yaml')
+            elif pathlib.Path('config.yml').exists():
+                path = pathlib.Path('config.yml')
+        except Exception as e:
+            raise Exception(f'Error accessing config file: {e}')
+        if path is None:
+            raise Exception(
+                'Oauth config file not found. Make sure the file exists in the current directory or in ~/.panapi/')
+        _configfile = path.resolve()
 
     def authenticate(self, **kwargs):
         # Process the configfile or kwargs
@@ -49,8 +59,9 @@ class PanApiSession(OAuth2Session):
         else:
             if 'configfile' in kwargs:
                 self._configfile = kwargs.get('configfile')
-            f = os.path.abspath(os.path.expanduser(os.path.expandvars(self._configfile)))
-            with open(f, 'r', encoding='utf-8-sig') as c:
+            else:
+                self._configfile = self._configfile
+            with open(self._configfile, 'r', encoding='utf-8-sig') as c:
                 config = yaml.safe_load(c.read())
             self.client_id = config['client_id']
             self.client_secret = config['client_secret']
@@ -99,5 +110,7 @@ class PanApiSession(OAuth2Session):
             )
         except ExpiredSignatureError:
             return True
-        else:
+        finally:
             return False
+            pass
+

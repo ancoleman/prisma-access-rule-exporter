@@ -1,13 +1,6 @@
 #!/usr/bin/env python3
 
 
-object_attrs = {
-    "addresses": [
-        "ip_wildcard", "ip_range", "ip_netmask", "fqdn", "description", "tags"
-    ]
-}
-
-
 class PanObject:
     """Base class for all resource objects
 

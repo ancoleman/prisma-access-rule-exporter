@@ -82,22 +82,26 @@ def cleanup_duplicate_rules(folders, rules):
             folders: List of Prisma Access folders to cycle through
             rules: Dictionary of rules generated from the get_rules() function
     """
-    for folder in folders:
-        for position in ['pre', 'post']:
-            if position in rules[folder]:
-                if len(rules[folder][position]) > 0:
-                    if position == 'pre':
-                        for rule in rules[folder][position]:
-                            if 'post' in rules[folder]:
-                                for post_rule in rules[folder]['post']:
-                                    if rule['id'] == post_rule['id']:
-                                        rules[folder]['post'].remove(post_rule)
-                    if position == 'post':
-                        for rule in rules[folder][position]:
-                            if 'pre' in rules[folder]:
-                                for pre_rule in rules[folder]['post']:
-                                    if rule['id'] == pre_rule['id']:
-                                        rules[folder]['pre'].remove(pre_rule)
+    try:
+        for folder in folders:
+            for position in ['pre', 'post']:
+                if position in rules[folder]:
+                    if len(rules[folder][position]) > 0:
+                        if position == 'pre':
+                            for rule in rules[folder][position]:
+                                if 'post' in rules[folder]:
+                                    for post_rule in rules[folder]['post']:
+                                        if rule['id'] == post_rule['id']:
+                                            rules[folder]['post'].remove(post_rule)
+                        # TODO Review logic for checking post rulebase duplicates, possibly remove if not necessary
+                        # if position == 'post':
+                        #     for rule in rules[folder][position]:
+                        #         if 'pre' in rules[folder]:
+                        #             for pre_rule in rules[folder]['post']:
+                        #                 if rule['id'] == pre_rule['id']:
+                        #                     rules[folder]['pre'].remove(pre_rule)
+    except Exception as e:
+        raise e
 
 
 ###############################
@@ -109,9 +113,12 @@ def generate_json_file(filename, rules):
             filename: the actual filename to generate for json
             rules: Dictionary of rules generated from the get_rules() function
     """
-    with open(filename, 'w') as f:
-        # Convert dictionary to JSON
-        json.dump(rules, f, indent=4)
+    try:
+        with open(filename, 'w') as f:
+            # Convert dictionary to JSON
+            json.dump(rules, f, indent=4)
+    except Exception as e:
+        raise e
 
 
 def generate_csv_rules(folders, rules_dict, type, suffix):
@@ -126,22 +133,25 @@ def generate_csv_rules(folders, rules_dict, type, suffix):
     Returns:
 
     """
-    for folder in folders:
-        for position in ['pre', 'post']:
-            if position in rules_dict[folder]:
-                if len(rules_dict[folder][position]) > 0:
-                    folder_data = rules_dict[folder][position]
-                    new_csv = open(f'{folder.lower()}_{type.lower()}_{position}_{suffix}.csv', 'w')
-                    csv_writer = csv.writer(new_csv)
-                    count = 0
+    try:
+        for folder in folders:
+            for position in ['pre', 'post']:
+                if position in rules_dict[folder]:
+                    if len(rules_dict[folder][position]) > 0:
+                        folder_data = rules_dict[folder][position]
+                        new_csv = open(f'{folder.lower()}_{type.lower()}_{position}_{suffix}.csv', 'w', newline='')
+                        csv_writer = csv.writer(new_csv)
+                        count = 0
 
-                    for item in folder_data:
-                        if count == 0:
-                            # Writing headers of CSV file
-                            header = item.keys()
-                            csv_writer.writerow(header)
-                            count += 1
+                        for item in folder_data:
+                            if count == 0:
+                                # Writing headers of CSV file
+                                header = item.keys()
+                                csv_writer.writerow(header)
+                                count += 1
 
-                        # Writing data of CSV file
-                        csv_writer.writerow(item.values())
-                    new_csv.close()
+                            # Writing data of CSV file
+                            csv_writer.writerow(item.values())
+                        new_csv.close()
+    except Exception as e:
+        raise e
