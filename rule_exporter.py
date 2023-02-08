@@ -4,6 +4,15 @@ import time
 import json
 import csv
 
+__author__ = "Anton Coleman"
+__copyright__ = "Copyright 2023, Prisma SASE Automation"
+__credits__ = ["Robert Hagen"]
+__license__ = "MIT"
+__version__ = ".1"
+__maintainer__ = "Anton Coleman"
+__email__ = "acoleman@paloaltonetworks.com"
+__status__ = "Community"
+
 
 def create_session():
     """
@@ -85,14 +94,12 @@ def cleanup_duplicate_rules(folders, rules):
     try:
         for folder in folders:
             for position in ['pre', 'post']:
-                if position in rules[folder]:
-                    if len(rules[folder][position]) > 0:
-                        if position == 'pre':
-                            for rule in rules[folder][position]:
-                                if 'post' in rules[folder]:
-                                    for post_rule in rules[folder]['post']:
-                                        if rule['id'] == post_rule['id']:
-                                            rules[folder]['post'].remove(post_rule)
+                if position in rules[folder] and len(rules[folder][position]) > 0:
+                    if position == 'pre':
+                        post_rules = rules[folder].get('post', [])
+                        rules[folder]['post'] = [post_rule for post_rule in post_rules if
+                                                 post_rule['id'] not in [rule['id'] for rule in
+                                                                         rules[folder][position]]]
                         # TODO Review logic for checking post rulebase duplicates, possibly remove if not necessary
                         # if position == 'post':
                         #     for rule in rules[folder][position]:
@@ -139,7 +146,8 @@ def generate_csv_rules(folders, rules_dict, type, suffix):
                 if position in rules_dict[folder]:
                     if len(rules_dict[folder][position]) > 0:
                         folder_data = rules_dict[folder][position]
-                        new_csv = open(f'{folder.lower()}_{type.lower()}_{position}_{suffix}.csv', 'w', newline='')
+                        new_csv = open(f'{folder.lower()}_{type.lower()}_{position}_{suffix}.csv',
+                                       'w', newline='', encoding='utf-8')
                         csv_writer = csv.writer(new_csv)
                         count = 0
 
